@@ -6,6 +6,9 @@ public class SwordAttack : MonoBehaviour
 {
     Vector2 rightAttackOffset;
     public Collider2D swordCollider;
+    public AudioSource swordAudioClip;
+    public AudioClip swordMissClip;
+    public AudioClip swordHitClip;
 
     public float damage = 3;
 
@@ -13,6 +16,7 @@ public class SwordAttack : MonoBehaviour
     void Start()
     {
         rightAttackOffset = transform.position;
+        swordAudioClip = GetComponent<AudioSource>();
     }
 
  
@@ -20,12 +24,16 @@ public class SwordAttack : MonoBehaviour
     {
         swordCollider.enabled = true;
         transform.localPosition = rightAttackOffset;
+        swordAudioClip.clip = swordMissClip;
+        swordAudioClip.Play();
     }
 
     public void AttackLeft()
     {
         swordCollider.enabled = true;
         transform.localPosition = new Vector3(rightAttackOffset.x = -1, rightAttackOffset.y);
+        swordAudioClip.clip = swordMissClip;
+        swordAudioClip.Play();
     }
 
     public void StopAttack()
@@ -38,7 +46,9 @@ public class SwordAttack : MonoBehaviour
         if(other.tag == "Enemy")
         {
             Enemy enemy = other.GetComponent<Enemy>();
-            if(enemy != null)
+            swordAudioClip.clip = swordHitClip;
+            swordAudioClip.Play();
+            if (enemy != null)
             {
                 enemy.Health -= damage;
             }

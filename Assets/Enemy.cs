@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Animator animator;
+    public GameObject myDrop;
 
     public float Health
     {
@@ -32,7 +33,9 @@ public class Enemy : MonoBehaviour
 
     public void RemoveEnemy()
     {
+        Vector3 deathPos = this.gameObject.transform.position;
         Destroy(gameObject);
+        GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
     }
 
     // Start is called before the first frame update

@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
 
+    public AudioSource playerAudioSource;
+
     Vector2 movementInput;
     Rigidbody2D rb;
 
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAudioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -99,6 +102,17 @@ public class PlayerController : MonoBehaviour
         } else
         {
             swordAttack.AttackRight();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Drop")
+        {
+            Coin drop = other.GetComponent<Coin>();
+            playerAudioSource.clip = drop.coinPickupClip;
+            playerAudioSource.Play();
+            drop.RemoveCoin();
         }
     }
 

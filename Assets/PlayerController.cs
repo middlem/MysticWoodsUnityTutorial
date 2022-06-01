@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
     public SwordAttack swordAttack;
+    public GameObject swordProjectile;
+    public GameObject playerObject;
 
     public AudioSource playerAudioSource;
 
@@ -17,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
     SpriteRenderer spriteRenderer;
-
+    
     bool canMove = true;
 
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     public void SwordAttack()
     {
-        LockMovement();
+        //LockMovement();
         if(spriteRenderer.flipX == true)
         {
             swordAttack.AttackLeft();
@@ -116,9 +118,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SpawnProjectile()
+    {
+        float distance = spriteRenderer.flipX ? -0.2f : 0.2f;
+        Vector3 myPos = new Vector3(this.gameObject.transform.position.x + distance, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+        GameObject weapon = Instantiate(swordProjectile, myPos, Quaternion.identity);
+        weapon.GetComponent<Projectile>().direction = !spriteRenderer.flipX;
+    }
+
+
     public void EndAttack()
     {
-        UnlockMovement();
+        //UnlockMovement();
         swordAttack.StopAttack();
     }
 

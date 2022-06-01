@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
     public float projectileSpeed = 1f;
     public float collisionOffset = 0.05f;
     Rigidbody2D rb;
+    public int collisionMaxCount = 3;
+    private int collisionCount = 0;
 
     // true = right
     // false = left
@@ -43,8 +45,10 @@ public class Projectile : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.Health -= 1;
-                Destroy(gameObject);
+                enemy.Health -= 10;
+                collisionCount++;
+                if(collisionCount >= collisionMaxCount)
+                    Destroy(gameObject);
             }
         }
     }

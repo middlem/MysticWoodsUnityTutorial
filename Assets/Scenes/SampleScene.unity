@@ -571,7 +571,8 @@ PrefabInstance:
       propertyPath: myDrop
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1489871271793761861, guid: 41827e35d5207d044bc917e1b0e8a248, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 41827e35d5207d044bc917e1b0e8a248, type: 3}
 --- !u!1 &1211055024
 GameObject:

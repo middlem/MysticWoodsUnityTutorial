@@ -33043,6 +33043,10 @@ PrefabInstance:
       propertyPath: myDrop
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7038834426410914189, guid: 41827e35d5207d044bc917e1b0e8a248, type: 3}
+      propertyPath: moveSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8087304833900151740, guid: 41827e35d5207d044bc917e1b0e8a248, type: 3}
       propertyPath: m_FlipX
       value: 0

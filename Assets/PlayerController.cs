@@ -22,10 +22,7 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
     SpriteRenderer spriteRenderer;
-    
-    bool canMove = true;
-
-    List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
+    MovementDriver movementDriver;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +33,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAudioSource = GetComponent<AudioSource>();
+
+        movementDriver = new MovementDriver(rb);
+        movementDriver.MoveSpeed = moveSpeed;
+        movementDriver.CollisionOffset = collisionOffset;
     }
 
     void Update()
@@ -48,16 +49,16 @@ public class PlayerController : MonoBehaviour
         
         if (movementInput != Vector2.zero)
         {
-            bool success = TryMove(movementInput);
+            bool success = movementDriver.TryMove(movementInput);
 
             if (!success)
             {
-                success = TryMove(new Vector2(movementInput.x, 0)); 
+                success = movementDriver.TryMove(new Vector2(movementInput.x, 0)); 
             }
 
             if (!success)
             {
-                success = TryMove(new Vector2(0, movementInput.y));
+                success = movementDriver.TryMove(new Vector2(0, movementInput.y));
             }
 
             animator.SetBool("isMoving", success);
@@ -75,24 +76,6 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
-    }
-
-    private bool TryMove(Vector2 direction)
-    {
-        if (direction != Vector2.zero && canMove == true)
-        {
-            int count = rb.Cast(direction, movementFilter, castCollisions, moveSpeed * Time.fixedDeltaTime + collisionOffset);
-
-            if (count == 0)
-            {
-                rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        } else { return false; }
     }
 
     void OnMove(InputValue movementValue)
@@ -161,7 +144,9 @@ public class PlayerController : MonoBehaviour
             Vector3 spawnPos = new Vector3(this.gameObject.transform.position.x + (Random.Range(-1.5f, 1.5f)),
                                            this.gameObject.transform.position.y + (Random.Range(-1.5f, 1.5f)),
                                            this.gameObject.transform.position.z);
+            
             Instantiate(enemy, spawnPos, Quaternion.identity);
+               
             yield return new WaitForSeconds(killCount < 50 ? 1.0f : .25f);
         }
     }
@@ -184,16 +169,5 @@ public class PlayerController : MonoBehaviour
     {
         //UnlockMovement();
         swordAttack.StopAttack();
-    }
-
-    public void LockMovement()
-    {
-        canMove = false;
-    }
-
-
-    public void UnlockMovement()
-    {
-        canMove = true;
     }
 }

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 437373230, guid: 98438f540d4255f489c0def9b254cb2e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -195,6 +195,12 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   swordAttack: {fileID: 0}
+  swordProjectile: {fileID: 0}
+  playerObject: {fileID: 0}
+  enemy: {fileID: 0}
+  projPickedUp: 0
+  killCount: 0
+  playerAudioSource: {fileID: 0}
 --- !u!95 &3827314736349850330
 Animator:
   serializedVersion: 4

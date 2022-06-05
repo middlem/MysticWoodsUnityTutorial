@@ -8,6 +8,7 @@ TagManager:
   - Drop
   - Projectile
   - Text
+  - XpDrop
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 916470583
     locked: 0

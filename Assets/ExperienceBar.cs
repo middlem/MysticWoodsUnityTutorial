@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Coin : MonoBehaviour
+public class ExperienceBar : MonoBehaviour
 {
-    public AudioClip coinPickupClip;
+    [SerializeField] Slider slider;
 
+    public void UpdateExperienceBar(int currentXp, int maxXp)
+    {
+        slider.maxValue = maxXp;
+        slider.value = currentXp;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +23,5 @@ public class Coin : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void RemoveCoin()
-    {
-        Destroy(gameObject);
     }
 }

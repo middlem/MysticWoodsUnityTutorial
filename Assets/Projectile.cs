@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float projectileSpeed = 1f;
+    public float projectileSpeed = 0.02f;
     public float collisionOffset = 0.05f;
     Rigidbody2D rb;
     public int collisionMaxCount = 3;
     private int collisionCount = 0;
+
+    private float distanceTravelled = 0f;
+    private float maxDistance = 10f;
 
     // true = right
     // false = left
@@ -23,11 +26,10 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        float horizon = GetCameraXMax();
-        if (rb.position.x > -horizon && rb.position.x < horizon)
+        if (distanceTravelled < maxDistance)
         {
             float newX = direction ? rb.position.x + projectileSpeed : rb.position.x - projectileSpeed;
+            distanceTravelled += projectileSpeed;
             Vector2 nextPosition = new Vector2(newX, rb.position.y);
             rb.MovePosition(nextPosition);
         }

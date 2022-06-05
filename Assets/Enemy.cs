@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 deathPos = this.gameObject.transform.position;
         Destroy(gameObject);
-        //GameObject prefabToSpawn = Instantiate(gameObject, deathPos, Quaternion.identity);
+        GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
     }
 
 

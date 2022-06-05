@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class XpDrop : MonoBehaviour
 {
-    public AudioClip coinPickupClip;
-
+    public int xpValue = 5;
+    public AudioClip pickupClip;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
         
     }
 
-    public void RemoveCoin()
+    public void RemoveDrop()
     {
         Destroy(gameObject);
     }

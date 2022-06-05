@@ -14,8 +14,16 @@ public class PlayerController : MonoBehaviour
     public GameObject enemy;
     public bool projPickedUp = false;
     public int killCount = 0;
+    public int maxHp = 100;
+    public int currentHp = 100;
+
+    public int currentXp = 0;
+    public int nextLevelXp = 100;
 
     public AudioSource playerAudioSource;
+
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] ExperienceBar xpBar;
 
     Vector2 movementInput;
     Rigidbody2D rb;
@@ -44,9 +52,20 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void takeDamage(int damage)
+    {
+        currentHp -= damage;
+        healthBar.SetState(currentHp, maxHp);
+        Debug.Log("Current hp: " + currentHp);
+
+        if (currentHp <= 0)
+        {
+            Debug.Log("Player Dead");
+        }
+    }
+
     private void FixedUpdate()
     {
-        
         if (movementInput != Vector2.zero)
         {
             bool success = movementDriver.TryMove(movementInput);
@@ -110,6 +129,21 @@ public class PlayerController : MonoBehaviour
             playerAudioSource.Play();
             projPickedUp = true;
             drop.RemoveCoin();
+        }
+        else if(other.tag == "XpDrop")
+        {
+            XpDrop drop = other.GetComponent<XpDrop>();
+            playerAudioSource.clip = drop.pickupClip;
+            playerAudioSource.Play();
+            currentXp += drop.xpValue;
+            if (currentXp >= nextLevelXp)
+            {
+                Debug.Log("Player Level Up!!");
+                nextLevelXp = (int)(nextLevelXp*1.2);
+                currentXp = 0;
+            }
+            xpBar.UpdateExperienceBar(currentXp, nextLevelXp);
+            drop.RemoveDrop();
         }
     }
 

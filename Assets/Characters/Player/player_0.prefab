@@ -200,7 +200,14 @@ MonoBehaviour:
   enemy: {fileID: 0}
   projPickedUp: 0
   killCount: 0
+  maxHp: 100
+  currentHp: 100
+  currentXp: 0
+  nextLevelXp: 100
+  levelUpClip: {fileID: 8300000, guid: 59587cb3aa56ba3489f0dc9687ae2ddb, type: 3}
   playerAudioSource: {fileID: 0}
+  healthBar: {fileID: 0}
+  xpBar: {fileID: 0}
 --- !u!95 &3827314736349850330
 Animator:
   serializedVersion: 4

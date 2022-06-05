@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public int currentXp = 0;
     public int nextLevelXp = 100;
+    public AudioClip levelUpClip;
 
     public AudioSource playerAudioSource;
 
@@ -139,6 +140,9 @@ public class PlayerController : MonoBehaviour
             if (currentXp >= nextLevelXp)
             {
                 Debug.Log("Player Level Up!!");
+                // This will clash with pickup and other sounds from this audio source
+                playerAudioSource.clip = levelUpClip;
+                playerAudioSource.Play();
                 nextLevelXp = (int)(nextLevelXp * 1.2);
                 currentXp = 0;
             }

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public bool movingUpY = true;
     public bool movingLeftX = true;
     public bool direction = false;
+    public int damage = 1;
 
     Rigidbody2D rb;
 
@@ -49,9 +50,9 @@ public class Enemy : MonoBehaviour
 
     public void Defeated()
     {
+        movementDriver.LockMovement();
         animator.SetTrigger("Defeated");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().killCount++;
-        
     }
 
     public void RemoveEnemy()

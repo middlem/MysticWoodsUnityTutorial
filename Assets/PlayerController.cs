@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
             projPickedUp = true;
             drop.RemoveCoin();
         }
-        else if(other.tag == "XpDrop")
+        else if (other.tag == "XpDrop")
         {
             XpDrop drop = other.GetComponent<XpDrop>();
             playerAudioSource.clip = drop.pickupClip;
@@ -139,11 +139,17 @@ public class PlayerController : MonoBehaviour
             if (currentXp >= nextLevelXp)
             {
                 Debug.Log("Player Level Up!!");
-                nextLevelXp = (int)(nextLevelXp*1.2);
+                nextLevelXp = (int)(nextLevelXp * 1.2);
                 currentXp = 0;
             }
             xpBar.UpdateExperienceBar(currentXp, nextLevelXp);
             drop.RemoveDrop();
+        }
+        else if (other.tag == "Enemy")
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            currentHp -= enemy.damage;
+            healthBar.SetState(currentHp, maxHp);
         }
     }
 

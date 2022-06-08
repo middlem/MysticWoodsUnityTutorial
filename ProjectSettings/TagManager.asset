@@ -9,6 +9,7 @@ TagManager:
   - Projectile
   - Text
   - XpDrop
+  - Boss
   layers:
   - Default
   - TransparentFX

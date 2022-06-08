@@ -53,6 +53,20 @@ public class Projectile : MonoBehaviour
                     Destroy(gameObject);
             }
         }
+        else if (other.tag == "Boss")
+        {
+            Boss enemy = other.GetComponent<Boss>();
+            if (enemy != null)
+            {
+                enemy.Health -= 10;
+                Debug.Log("Morbin health: " + enemy.Health);
+                if(enemy.Health <= 0)
+                {
+                    enemy.RemoveMe();
+                }
+                collisionCount++; 
+            }
+        }
     }
 
     private float GetCameraXMax()

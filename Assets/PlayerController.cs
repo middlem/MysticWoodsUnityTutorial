@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public GameObject swordProjectile;
     public GameObject playerObject;
     public GameObject enemy;
+    public GameObject bossObject;
     public bool projPickedUp = false;
     public int killCount = 0;
     public int maxHp = 100;
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public int currentXp = 0;
     public int nextLevelXp = 100;
     public AudioClip levelUpClip;
+
+    public bool bossSpawned = false;
 
     public AudioSource playerAudioSource;
 
@@ -190,9 +193,24 @@ public class PlayerController : MonoBehaviour
                                            this.gameObject.transform.position.z);
             
             Instantiate(enemy, spawnPos, Quaternion.identity);
-               
+
+            if (killCount > 200 && bossSpawned == false)
+            {
+                bossSpawned = true;
+                SpawnBoss();
+            }
+
             yield return new WaitForSeconds(killCount < 50 ? 1.0f : .25f);
         }
+    }
+
+    public void SpawnBoss()
+    {
+        Vector3 spawnPos = new Vector3(this.gameObject.transform.position.x + (Random.Range(-3f, 3f)),
+                                           this.gameObject.transform.position.y + (Random.Range(-3f, 3f)),
+                                           this.gameObject.transform.position.z);
+
+        Instantiate(bossObject, spawnPos, Quaternion.identity);
     }
 
     public IEnumerator SpawnExtraProj()

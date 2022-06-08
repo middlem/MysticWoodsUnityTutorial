@@ -53,13 +53,13 @@ public class Enemy : MonoBehaviour
         movementDriver.LockMovement();
         animator.SetTrigger("Defeated");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().killCount++;
+        Vector3 deathPos = this.gameObject.transform.position;
+        GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
     }
 
     public void RemoveEnemy()
     {
-        Vector3 deathPos = this.gameObject.transform.position;
         Destroy(gameObject);
-        GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
     }
 
 

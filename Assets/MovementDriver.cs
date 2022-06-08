@@ -29,6 +29,32 @@ public class MovementDriver
         this.rb = rb_p;
     }
 
+    // Moves away from toPosition by distance amount
+    // Attempts to move on one axis if collision is detected
+    public bool TryMoveAwayFromPositionByDistance(Vector3 myPos, Vector3 toPosition, float distance)
+    {
+        var vectorSum = toPosition - myPos;
+
+        // Invert all directions to move away
+        Vector2 direction = new Vector2(
+            vectorSum.x > 0 ? -1 : vectorSum.x == 0 ? 0 : 1,
+            vectorSum.y > 0 ? -1 : vectorSum.y == 0 ? 0 : 1);
+
+        bool success = TryMoveByDistance(direction, distance);
+
+        if (!success)
+        {
+            success = TryMoveByDistance(new Vector2(direction.x, 0), distance);
+        }
+
+        if (!success)
+        {
+            success = TryMoveByDistance(new Vector2(0, direction.y), distance);
+        }
+
+        return success;
+    }
+
     // Moves towards position with collision
     // Attempts to move on one axis if collision is detected
     public bool TryMoveTowardsPosition(Vector3 myPos, Vector3 toPosition)
@@ -55,16 +81,22 @@ public class MovementDriver
     }
 
     // Checks for collision
+    // Distanced moved based on move speed
     // Return if movement was successful
     public bool TryMove(Vector2 movementVector)
     {
+        return TryMoveByDistance(movementVector, moveSpeed);
+    }
+
+    public bool TryMoveByDistance(Vector2 movementVector, float distance)
+    {
         if (movementVector != Vector2.zero && canMove == true)
         {
-            int count = rb.Cast(movementVector, movementFilter, castCollisions, moveSpeed * Time.fixedDeltaTime + collisionOffset);
+            int count = rb.Cast(movementVector, movementFilter, castCollisions, distance * Time.fixedDeltaTime + collisionOffset);
 
             if (count == 0)
             {
-                rb.MovePosition(rb.position + movementVector * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + movementVector * distance * Time.fixedDeltaTime);
                 return true;
             }
             else

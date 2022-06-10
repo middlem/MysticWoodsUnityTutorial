@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     {
         movementDriver.LockMovement();
         animator.SetTrigger("Defeated");
-        GameObject.FindWithTag("Player").GetComponent<PlayerController>().killCount++;
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().killCount.addOneToKillCount();
         Vector3 deathPos = this.gameObject.transform.position;
         GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
     }
@@ -65,6 +65,11 @@ public class Enemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    private void FixedUpdate()
     {
         var player = GameObject.FindWithTag("Player").transform.position;
         movementDriver.TryMoveTowardsPosition(this.transform.position, player);

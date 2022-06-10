@@ -26,6 +26,11 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
         if (distanceTravelled < maxDistance)
         {
             float newX = direction ? rb.position.x + projectileSpeed : rb.position.x - projectileSpeed;

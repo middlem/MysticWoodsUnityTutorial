@@ -21,19 +21,24 @@ public class RockWheel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var player = GameObject.FindWithTag("Player").transform.position;
   
+    }
+
+    void FixedUpdate()
+    {
+        var player = GameObject.FindWithTag("Player").transform.position;
+
         currentRotationOnPlayer += rotationSpeed;
         currentRotationOnPlayer = currentRotationOnPlayer % 360;
 
         Vector3 newPos = new Vector3(
-            player.x + ((float)Math.Cos(currentRotationOnPlayer)) * distanceFromPlayer, 
-            player.y + ((float)Math.Sin(currentRotationOnPlayer)) * distanceFromPlayer, 
+            player.x + ((float)Math.Cos(currentRotationOnPlayer)) * distanceFromPlayer,
+            player.y + ((float)Math.Sin(currentRotationOnPlayer)) * distanceFromPlayer,
             player.z);
 
         Quaternion newRotation = new Quaternion();
         this.transform.SetPositionAndRotation(newPos, newRotation);
-  
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)

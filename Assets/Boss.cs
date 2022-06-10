@@ -32,7 +32,12 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!inPushback)
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (!inPushback)
         {
             var player = GameObject.FindWithTag("Player").transform.position;
             movementDriver.TryMoveTowardsPosition(this.transform.position, player);

@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     public GameObject enemy;
     public GameObject bossObject;
     public bool projPickedUp = false;
-    public int killCount = 0;
     public int maxHp = 100;
     public int currentHp = 100;
 
@@ -26,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource playerAudioSource;
 
+    [SerializeField] public GameObject gameOverPanel;
     [SerializeField] HealthBar healthBar;
     [SerializeField] ExperienceBar xpBar;
 
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     SpriteRenderer spriteRenderer;
     MovementDriver movementDriver;
+    public KillCount killCount;
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
         movementDriver = new MovementDriver(rb);
         movementDriver.MoveSpeed = moveSpeed;
         movementDriver.CollisionOffset = collisionOffset;
+
+        gameOverPanel.SetActive(false);
     }
 
     void Update()
@@ -60,11 +64,11 @@ public class PlayerController : MonoBehaviour
     {
         currentHp -= damage;
         healthBar.SetState(currentHp, maxHp);
-        Debug.Log("Current hp: " + currentHp);
+        //Debug.Log("Current hp: " + currentHp);
 
         if (currentHp <= 0)
         {
-            Debug.Log("Player Dead");
+            gameOverPanel.SetActive(true);
         }
     }
 
@@ -155,25 +159,23 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "Enemy")
         {
             Enemy enemy = other.GetComponent<Enemy>();
-            currentHp -= enemy.damage;
-            healthBar.SetState(currentHp, maxHp);
+            takeDamage(enemy.damage);
         }
     }
 
     public void SpawnProjectile(float yOffsetValue = 0)
     {
-        Debug.Log("Kill Count: "+killCount);
         if (!projPickedUp) return;
         float distance = spriteRenderer.flipX ? -0.2f : 0.2f;
         Vector3 myPos = new Vector3(this.gameObject.transform.position.x + distance, this.gameObject.transform.position.y+yOffsetValue, this.gameObject.transform.position.z);
         GameObject weapon = Instantiate(swordProjectile, myPos, Quaternion.identity);
         var weaponObj = weapon.GetComponent<Projectile>();
         weaponObj.direction = !spriteRenderer.flipX;
-        if (killCount > 10)
+        if (killCount.killCount > 10)
             weaponObj.projectileSpeed *= 2;
-        if (killCount > 50)
+        if (killCount.killCount > 50)
             weaponObj.collisionMaxCount = 5;
-        if (killCount > 100)
+        if (killCount.killCount > 100)
         {
             GameObject weapon2 = Instantiate(swordProjectile, myPos, Quaternion.identity);
             var weaponObj2 = weapon2.GetComponent<Projectile>();
@@ -194,13 +196,13 @@ public class PlayerController : MonoBehaviour
             
             Instantiate(enemy, spawnPos, Quaternion.identity);
 
-            if (killCount > 200 && bossSpawned == false)
+            if (killCount.killCount > 200 && bossSpawned == false)
             {
                 bossSpawned = true;
                 SpawnBoss();
             }
 
-            yield return new WaitForSeconds(killCount < 50 ? 1.0f : .25f);
+            yield return new WaitForSeconds(killCount.killCount < 50 ? 1.0f : .25f);
         }
     }
 
@@ -217,7 +219,7 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            if (killCount > 200)
+            if (killCount.killCount > 200)
             {
                 SpawnProjectile(.2f);
                 SpawnProjectile(-.2f);

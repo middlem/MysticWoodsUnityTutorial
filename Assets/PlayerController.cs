@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public int maxHp = 100;
     public int currentHp = 100;
 
+    public int playerLevel = 1;
     public int currentXp = 0;
     public int nextLevelXp = 100;
     public AudioClip levelUpClip;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudioSource;
 
     [SerializeField] public GameObject gameOverPanel;
+    [SerializeField] public GameObject levelUpPanel;
     [SerializeField] HealthBar healthBar;
     [SerializeField] ExperienceBar xpBar;
 
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer spriteRenderer;
     MovementDriver movementDriver;
     public KillCount killCount;
+    public LevelBanner levelBanner;
 
 
     // Start is called before the first frame update
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
         movementDriver.CollisionOffset = collisionOffset;
 
         gameOverPanel.SetActive(false);
+        levelUpPanel.SetActive(false);
     }
 
     void Update()
@@ -68,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentHp <= 0)
         {
+            Time.timeScale = 0; // Pause Game
             gameOverPanel.SetActive(true);
         }
     }
@@ -128,6 +133,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayerLevelUp()
+    {
+        Time.timeScale = 0; // Pause Game
+        playerAudioSource.clip = levelUpClip;
+        playerAudioSource.Play();
+        levelBanner.UpdatePlayerLevelText(++playerLevel);
+        nextLevelXp = (int)(nextLevelXp * 1.2);
+        currentXp = 0;
+        levelUpPanel.SetActive(true);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Drop")
@@ -146,12 +162,7 @@ public class PlayerController : MonoBehaviour
             currentXp += drop.xpValue;
             if (currentXp >= nextLevelXp)
             {
-                Debug.Log("Player Level Up!!");
-                // This will clash with pickup and other sounds from this audio source
-                playerAudioSource.clip = levelUpClip;
-                playerAudioSource.Play();
-                nextLevelXp = (int)(nextLevelXp * 1.2);
-                currentXp = 0;
+                PlayerLevelUp();
             }
             xpBar.UpdateExperienceBar(currentXp, nextLevelXp);
             drop.RemoveDrop();

@@ -1,12 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MainMenuButton : MonoBehaviour
+public class LevelUpPanel : MonoBehaviour
 {
-    public void GoToMainMenu()
+    [SerializeField] public GameObject levelUpPanel;
+
+    public void UnpauseGame()
     {
         Time.timeScale = 1; // Unpause Game
-        SceneManager.LoadScene("MenuScene");
+        levelUpPanel.SetActive(false);
     }
 
     // Start is called before the first frame update

@@ -1,27 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RockWheel : MonoBehaviour
+public class RockWheel : Weapon
 {
-
     float distanceFromPlayer = 0.5f;
     float currentRotationOnPlayer = 0f;
     float rotationSpeed = 0.06f;
     //float currentSpriteRotation = 0f;
     //float spriteRotationSpeed = 1f;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        base.Start(); // Super
 
-    // Update is called once per frame
-    void Update()
-    {
-  
+        this.weaponDamage = 10;
+        this.weaponName = "Rock Wheel";
+        this.weaponIcon = null;
     }
 
     void FixedUpdate()
@@ -48,7 +42,8 @@ public class RockWheel : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.Health -= 10;
+                enemy.Health -= weaponDamage;
+                audioSource.Play();
             }
         }
         else if (other.tag == "Boss")
@@ -56,8 +51,8 @@ public class RockWheel : MonoBehaviour
             Boss enemy = other.GetComponent<Boss>();
             if (enemy != null)
             {
-                enemy.Health -= 10;
-                Debug.Log("Morbin health: " + enemy.Health);
+                enemy.Health -= weaponDamage;
+                audioSource.Play();
                 if (enemy.Health <= 0)
                 {
                     enemy.RemoveMe();

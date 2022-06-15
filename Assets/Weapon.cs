@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
-    public int weaponDamage = 1;
     public int upgradeLevel = 0;
     public int maxUpgradeLevel = 0;
     IDictionary<int, string> upgradeDescriptions;
@@ -14,20 +13,18 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public AudioClip weaponDamageSound = null;
+    [SerializeField] public GameObject my_projectile;
+    //List<Projectile> weapon_projectiles;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        audioSource.clip = this.weaponDamageSound;
+        Projectile projectile = my_projectile.GetComponent<Projectile>();
+        audioSource.clip = weaponDamageSound;
+        projectile.audioSource = audioSource;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
 
     }

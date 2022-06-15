@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip levelUpClip;
 
     public bool bossSpawned = false;
+    public enum Player_Direction { Left, Right }
+    public Player_Direction playerDirection;
 
     public AudioSource playerAudioSource;
 
@@ -45,11 +47,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemy());
-        StartCoroutine(SpawnExtraProj());
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAudioSource = GetComponent<AudioSource>();
+
+        playerDirection =  Player_Direction.Right;
 
         movementDriver = new MovementDriver(rb);
         movementDriver.MoveSpeed = moveSpeed;
@@ -103,9 +106,11 @@ public class PlayerController : MonoBehaviour
         if (movementInput.x < 0)
         {
             spriteRenderer.flipX = true;
+            playerDirection = Player_Direction.Left;
         }
         else if (movementInput.x > 0)
         {
+            playerDirection = Player_Direction.Right;
             spriteRenderer.flipX = false;
         }
     }
@@ -174,30 +179,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SpawnProjectile(float yOffsetValue = 0)
-    {
-        if (!projPickedUp) return;
-        float distance = spriteRenderer.flipX ? -0.2f : 0.2f;
-        Vector3 myPos = new Vector3(this.gameObject.transform.position.x + distance, this.gameObject.transform.position.y+yOffsetValue, this.gameObject.transform.position.z);
-        GameObject weapon = Instantiate(swordProjectile, myPos, Quaternion.identity);
-        var weaponObj = weapon.GetComponent<Projectile>();
-        weaponObj.direction = !spriteRenderer.flipX;
-        if (killCount.killCount > 10)
-            weaponObj.projectileSpeed *= 2;
-        if (killCount.killCount > 50)
-            weaponObj.collisionMaxCount = 5;
-        if (killCount.killCount > 100)
-        {
-            GameObject weapon2 = Instantiate(swordProjectile, myPos, Quaternion.identity);
-            var weaponObj2 = weapon2.GetComponent<Projectile>();
-            weaponObj2.direction = !weaponObj.direction;
-            weaponObj2.projectileSpeed *= 2;
-            weaponObj2.collisionMaxCount = 50;
-            weaponObj.collisionMaxCount = 50;
-        }
-
-    }
-
     public IEnumerator SpawnEnemy()
     {   while (true)
         {
@@ -225,20 +206,6 @@ public class PlayerController : MonoBehaviour
 
         Instantiate(bossObject, spawnPos, Quaternion.identity);
     }
-
-    public IEnumerator SpawnExtraProj()
-    {
-        while (true)
-        {
-            if (killCount.killCount > 200)
-            {
-                SpawnProjectile(.2f);
-                SpawnProjectile(-.2f);
-            }
-            yield return new WaitForSeconds(.5f);
-        }
-    }
-
 
     public void EndAttack()
     {

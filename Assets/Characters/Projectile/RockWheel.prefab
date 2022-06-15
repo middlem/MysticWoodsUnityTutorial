@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6596606825346441930}
   - component: {fileID: 6596606825346441935}
   m_Layer: 0
-  m_Name: RockWheelWeapon
+  m_Name: RockWheel
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,11 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDamage: 1
-  upgradeLevel: 0
-  maxUpgradeLevel: 0
-  weaponName: 
-  weaponDamageSound: {fileID: 8300000, guid: 0db4ae30d7efdcb4c80f3ceca909a506, type: 3}
-  weaponIcon: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!58 &6596606825346441935
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class RockWheel : Weapon
+public class RockWheel : Projectile
 {
     float distanceFromPlayer = 0.5f;
     float currentRotationOnPlayer = 0f;
@@ -12,10 +12,7 @@ public class RockWheel : Weapon
     protected override void Start()
     {
         base.Start(); // Super
-
         this.weaponDamage = 10;
-        this.weaponName = "Rock Wheel";
-        this.weaponIcon = null;
     }
 
     void FixedUpdate()

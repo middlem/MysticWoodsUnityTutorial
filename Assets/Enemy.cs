@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         animator.SetTrigger("Defeated");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().killCount.addOneToKillCount();
         Vector3 deathPos = this.gameObject.transform.position;
-        GameObject prefabToSpawn = Instantiate(myDrop, deathPos, Quaternion.identity);
+        Instantiate(myDrop, deathPos, Quaternion.identity);
     }
 
     public void RemoveEnemy()

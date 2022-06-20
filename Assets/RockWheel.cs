@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class RockWheel : Projectile
 {
-    float distanceFromPlayer = 0.5f;
-    float currentRotationOnPlayer = 0f;
-    float rotationSpeed = 0.06f;
+    public float distanceFromPlayer = 0.5f;
+    public float currentRotationOnPlayer = 0f;
+    public float rotationSpeed = 3f;
     //float currentSpriteRotation = 0f;
     //float spriteRotationSpeed = 1f;
 
@@ -22,9 +22,10 @@ public class RockWheel : Projectile
         currentRotationOnPlayer += rotationSpeed;
         currentRotationOnPlayer = currentRotationOnPlayer % 360;
 
+        
         Vector3 newPos = new Vector3(
-            player.x + ((float)Math.Cos(currentRotationOnPlayer)) * distanceFromPlayer,
-            player.y + ((float)Math.Sin(currentRotationOnPlayer)) * distanceFromPlayer,
+            player.x + (float)Math.Cos(Math.PI * currentRotationOnPlayer / 180.0) * distanceFromPlayer,
+            player.y + (float)Math.Sin(Math.PI * currentRotationOnPlayer / 180.0) * distanceFromPlayer,
             player.z);
 
         Quaternion newRotation = new Quaternion();

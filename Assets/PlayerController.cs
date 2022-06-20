@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     public KillCount killCount;
     public LevelBanner levelBanner;
 
+    //public Weapon my_weapon;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
         gameOverPanel.SetActive(false);
         levelUpPanel.SetActive(false);
+
+        //my_weapon = gameObject.AddComponent(typeof(RockWheelWeapon)) as RockWheelWeapon;
     }
 
     void Update()
@@ -123,7 +127,7 @@ public class PlayerController : MonoBehaviour
     // For events like on attack
     void OnFire()
     {
-        animator.SetTrigger("swordAttack");
+        //animator.SetTrigger("swordAttack");
     }
 
     public void SwordAttack()
@@ -146,6 +150,8 @@ public class PlayerController : MonoBehaviour
         levelBanner.UpdatePlayerLevelText(++playerLevel);
         nextLevelXp = (int)(nextLevelXp * 1.2);
         currentXp = 0;
+        var levelPanel = levelUpPanel.GetComponent<LevelUpPanel>();
+        levelPanel.randomizeUpgradeOptions();
         levelUpPanel.SetActive(true);
     }
 

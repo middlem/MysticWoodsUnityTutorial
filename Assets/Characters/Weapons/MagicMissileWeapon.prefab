@@ -45,15 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a6bad6e2fbdb04facf0dd995e98fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeLevel: 0
-  maxUpgradeLevel: 0
+  weaponLevel: 1
+  maxWeaponLevel: 1
   weaponName: 
   weaponIcon: {fileID: 0}
   audioSource: {fileID: 8272126121130858137}
   weaponDamageSound: {fileID: 8300000, guid: 0db4ae30d7efdcb4c80f3ceca909a506, type: 3}
   my_projectile: {fileID: 4749234981685582092, guid: 0b665073f98b7d74c8ed8655d2c9dfd1, type: 3}
-  attacks_per_second: 1
-  fixedDeltaCounter: 0
+  attack_speed: 1
 --- !u!82 &8272126121130858137
 AudioSource:
   m_ObjectHideFlags: 0
